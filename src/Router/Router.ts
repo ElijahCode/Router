@@ -27,15 +27,17 @@ export abstract class Router {
 
   public on(
     inputUrl: string,
-    hook: Hook,
-    onEnter?: OnEnter,
-    onLeave?: OnLeave,
+    hook?: Hook | undefined,
+    onEnter?: OnEnter | undefined,
+    onLeave?: OnLeave | undefined,
     onBeforeEnter?: OnBeforeEnter
   ): void {
-    this.hookLIst.push({
-      url: inputUrl,
-      toDo: hook,
-    });
+    if (hook) {
+      this.hookLIst.push({
+        url: inputUrl,
+        toDo: hook,
+      });
+    }
     if (onEnter) {
       this.onEnterList.push({
         url: inputUrl,
@@ -56,20 +58,22 @@ export abstract class Router {
     }
   }
 
-  protected onEnter(url: string): void {
+  protected async onEnter(url: string): Promise<void> {
     const onEnterThatWillRun = this.onEnterList.filter((el) => el.url === url);
     onEnterThatWillRun.forEach((el) => el.toDo());
   }
 
-  protected onLeave(url: string): void {
+  protected async onLeave(url: string): Promise<void> {
     const onLeaveThatWillRun = this.onLeaveList.filter((el) => el.url === url);
     onLeaveThatWillRun.forEach((el) => el.toDo());
   }
 
-  protected onBeforeEnter(url: string): void {
+  protected async onBeforeEnter(url: string): Promise<void> {
     const onBeforeEnterThatWillRun = this.onBeforeEnterList.filter(
       (el) => el.url === url
     );
-    onBeforeEnterThatWillRun.forEach((el) => el.toDo());
+    onBeforeEnterThatWillRun.forEach(async (el) => {
+      await el.toDo();
+    });
   }
 }

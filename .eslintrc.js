@@ -21,5 +21,6 @@ module.exports = {
     "import/extensions": ["warn", "never"],
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-namespace": "off",
+    "no-restricted-globals": "off",
   },
 };
