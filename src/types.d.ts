@@ -3,23 +3,23 @@ type PreviousPath = string | null;
 type PathsHistory = string[];
 
 interface Hook {
-  (): () => void;
-  async(): () => void;
+  (...args: any[]): () => void;
+  async(...args: any[]): () => void;
 }
 
 interface OnEnter {
-  (): () => void;
-  async(): () => void;
+  (...args: any[]): () => void;
+  async(...args: any[]): () => void;
 }
 
 interface OnLeave {
-  (): () => void;
-  async(): () => void;
+  (...args: any[]): () => void;
+  async(...args: any[]): () => void;
 }
 
 interface OnBeforeEnter {
-  (): () => void;
-  async(): () => void;
+  (...args: any[]): () => void;
+  async(...args: any[]): () => void;
 }
 
 interface UrlArgumentFunction {
@@ -55,4 +55,10 @@ interface OnOptionalArguments {
   onEnter?: OnEnter;
   onLeave?: OnLeave;
   onBeforeEnter?: OnBeforeEnter;
+}
+
+interface GoOptionalArguments {
+  onEnter?: any[];
+  onLeave?: any[];
+  onBeforeEnter?: any[];
 }

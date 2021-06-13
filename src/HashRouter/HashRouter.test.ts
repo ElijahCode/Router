@@ -495,3 +495,76 @@ it("Test HashRouter on: async function onBeforeEnter", async () => {
   await sleep(20);
   expect(spy).toHaveBeenCalledTimes(2);
 });
+
+it("Test HashRouter go with args: onEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  router.on("/main/pages", { onEnter: spy });
+
+  const argumets = {
+    onEnter: [1],
+  };
+
+  await router.go("/main/pages", argumets);
+  expect(spy).toHaveBeenCalledTimes(1);
+  expect(spy).toHaveBeenCalledWith(1);
+
+  argumets.onEnter = [1, 2];
+  await router.go("/main/pages", argumets);
+  expect(spy).toHaveBeenCalledTimes(2);
+  expect(spy).toHaveBeenCalledWith(1, 2);
+
+  argumets.onEnter = [1, 2, 3];
+  await router.go("/main/pages", argumets);
+  expect(spy).toHaveBeenCalledTimes(3);
+  expect(spy).toHaveBeenCalledWith(1, 2, 3);
+});
+
+it("Test HashRouter go with args: onLeave", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  router.on("/main/pages", { onLeave: spy });
+
+  const argumets = {
+    onLeave: [1],
+  };
+
+  await router.go("/main/pages");
+  await router.go("/main/pages", argumets);
+  expect(spy).toHaveBeenCalledTimes(1);
+  expect(spy).toHaveBeenCalledWith(1);
+
+  argumets.onLeave = [1, 2];
+  await router.go("/main/pages", argumets);
+  expect(spy).toHaveBeenCalledTimes(2);
+  expect(spy).toHaveBeenCalledWith(1, 2);
+
+  argumets.onLeave = [1, 2, 3];
+  await router.go("/main/pages", argumets);
+  expect(spy).toHaveBeenCalledTimes(3);
+  expect(spy).toHaveBeenCalledWith(1, 2, 3);
+});
+
+it("Test HashRouter go with args: onBeforeEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  router.on("/main/pages", { onBeforeEnter: spy });
+
+  const argumets = {
+    onBeforeEnter: [1],
+  };
+
+  await router.go("/main/pages", argumets);
+  expect(spy).toHaveBeenCalledTimes(1);
+  expect(spy).toHaveBeenCalledWith(1);
+
+  argumets.onBeforeEnter = [1, 2];
+  await router.go("/main/pages", argumets);
+  expect(spy).toHaveBeenCalledTimes(2);
+  expect(spy).toHaveBeenCalledWith(1, 2);
+
+  argumets.onBeforeEnter = [1, 2, 3];
+  await router.go("/main/pages", argumets);
+  expect(spy).toHaveBeenCalledTimes(3);
+  expect(spy).toHaveBeenCalledWith(1, 2, 3);
+});

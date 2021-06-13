@@ -23,7 +23,10 @@ export abstract class Router {
     this.onBeforeEnterList = [];
   }
 
-  abstract go(url: string): Promise<void>;
+  abstract go(
+    url: string,
+    optionalArguments?: GoOptionalArguments
+  ): Promise<void>;
 
   public on(
     inputUrl: UrlArgument,
@@ -55,7 +58,10 @@ export abstract class Router {
     }
   }
 
-  protected async onEnter(url: string): Promise<void> {
+  protected async onEnter(
+    url: string,
+    hookArguments?: GoOptionalArguments["onEnter"]
+  ): Promise<void> {
     const onEnterThatWillRun = this.onEnterList.filter((el) => {
       switch (typeof el.url) {
         case "string":
@@ -69,11 +75,18 @@ export abstract class Router {
       }
     });
     onEnterThatWillRun.forEach(async (el) => {
-      await el.toDo();
+      if (hookArguments) {
+        await el.toDo(...hookArguments);
+      } else {
+        await el.toDo();
+      }
     });
   }
 
-  protected async onLeave(url: string): Promise<void> {
+  protected async onLeave(
+    url: string,
+    hookArguments?: GoOptionalArguments["onLeave"]
+  ): Promise<void> {
     const onLeaveThatWillRun = this.onLeaveList.filter((el) => {
       switch (typeof el.url) {
         case "string":
@@ -87,11 +100,18 @@ export abstract class Router {
       }
     });
     onLeaveThatWillRun.forEach(async (el) => {
-      await el.toDo();
+      if (hookArguments) {
+        await el.toDo(...hookArguments);
+      } else {
+        await el.toDo();
+      }
     });
   }
 
-  protected async onBeforeEnter(url: string): Promise<void> {
+  protected async onBeforeEnter(
+    url: string,
+    hookArguments?: GoOptionalArguments["onBeforeEnter"]
+  ): Promise<void> {
     const onBeforeEnterThatWillRun = this.onBeforeEnterList.filter((el) => {
       switch (typeof el.url) {
         case "string":
@@ -105,7 +125,11 @@ export abstract class Router {
       }
     });
     onBeforeEnterThatWillRun.forEach(async (el) => {
-      await el.toDo();
+      if (hookArguments) {
+        await el.toDo(...hookArguments);
+      } else {
+        await el.toDo();
+      }
     });
   }
 }
