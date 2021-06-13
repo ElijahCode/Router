@@ -25,35 +25,29 @@ export abstract class Router {
 
   abstract go(url: string): Promise<void>;
 
-  public on(
-    inputUrl: string,
-    hook?: Hook | undefined,
-    onEnter?: OnEnter | undefined,
-    onLeave?: OnLeave | undefined,
-    onBeforeEnter?: OnBeforeEnter
-  ): void {
-    if (hook) {
+  public on(inputUrl: string, optionalArguments: OnOptionalArguments): void {
+    if (optionalArguments.hook) {
       this.hookLIst.push({
         url: inputUrl,
-        toDo: hook,
+        toDo: optionalArguments.hook,
       });
     }
-    if (onEnter) {
+    if (optionalArguments.onEnter) {
       this.onEnterList.push({
         url: inputUrl,
-        toDo: onEnter,
+        toDo: optionalArguments.onEnter,
       });
     }
-    if (onLeave) {
+    if (optionalArguments.onLeave) {
       this.onLeaveList.push({
         url: inputUrl,
-        toDo: onLeave,
+        toDo: optionalArguments.onLeave,
       });
     }
-    if (onBeforeEnter) {
+    if (optionalArguments.onBeforeEnter) {
       this.onBeforeEnterList.push({
         url: inputUrl,
-        toDo: onBeforeEnter,
+        toDo: optionalArguments.onBeforeEnter,
       });
     }
   }

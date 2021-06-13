@@ -43,3 +43,10 @@ type OnBeforeEnterList = {
 }[];
 
 type GoArgument = string;
+
+interface OnOptionalArguments {
+  hook?: Hook;
+  onEnter?: OnEnter;
+  onLeave?: OnLeave;
+  onBeforeEnter?: OnBeforeEnter;
+}

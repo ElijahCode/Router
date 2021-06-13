@@ -16,7 +16,7 @@ it("Test HashRouter sync hook", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
-  router.on("/main/user", spy);
+  router.on("/main/user", { hook: spy });
 
   await router.go("/main");
   expect(spy).toHaveBeenCalledTimes(1);
@@ -31,7 +31,7 @@ it("Test HashRouter sync hook", async () => {
 it("Test HashRouter sync onEnter", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
-  router.on("/main/pages", undefined, spy);
+  router.on("/main/pages", { onEnter: spy });
 
   await router.go("/main/cost");
   expect(spy).toHaveBeenCalledTimes(0);
@@ -46,7 +46,7 @@ it("Test HashRouter sync onEnter", async () => {
 it("Test HashRouter sync onLeave", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
-  router.on("/main/article", undefined, undefined, spy);
+  router.on("/main/article", { onLeave: spy });
 
   await router.go("/main/calculator");
   expect(spy).toHaveBeenCalledTimes(0);
@@ -62,7 +62,7 @@ it("Test HashRouter sync onBeforeLeave", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
-  router.on("/main/before", undefined, undefined, undefined, spy);
+  router.on("/main/before", { onBeforeEnter: spy });
 
   await router.go("/main/calculator");
   expect(spy).toHaveBeenCalledTimes(0);
@@ -77,11 +77,11 @@ it("Test HashRouter sync onBeforeLeave", async () => {
 it("Test HashRouter async hook", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
-  async function hook() {
+  async function hookFun() {
     return setTimeout(spy, 10);
   }
 
-  router.on("/main/hook", hook);
+  router.on("/main/hook", { hook: hookFun });
 
   await router.go("/main/users");
   expect(spy).toBeCalledTimes(0);
@@ -100,7 +100,7 @@ it("Test HasRouter async onEnter", async () => {
   async function hook() {
     return setTimeout(spy, 10);
   }
-  router.on("/main/onEnter", undefined, hook);
+  router.on("/main/onEnter", { onEnter: hook });
 
   await router.go("/main/users");
   expect(spy).toBeCalledTimes(0);
@@ -119,7 +119,7 @@ it("Test HashRouter async onLeave", async () => {
   async function hook() {
     return setTimeout(spy, 10);
   }
-  router.on("/main/onLeave", undefined, undefined, hook);
+  router.on("/main/onLeave", { onLeave: hook });
 
   await router.go("/main/users");
   expect(spy).toBeCalledTimes(0);
@@ -143,7 +143,7 @@ it("Test HashRouter async onBeforeEnter", async () => {
   async function hook() {
     return setTimeout(spy, 10);
   }
-  router.on("/main/onBeforeEnter", undefined, undefined, undefined, hook);
+  router.on("/main/onBeforeEnter", { onBeforeEnter: hook });
 
   await router.go("/main/users");
   expect(spy).toBeCalledTimes(0);
