@@ -1,74 +1,157 @@
 import { HashRouter } from "./HashRouter";
+import { sleep } from "../utils/utils";
 
 it("HashRouter correct create root path", () => {
   const router = new HashRouter("/main");
   expect(location.toString()).toBe("http://localhost/#/main");
 });
 
-it("HashRouter correct go to next addres", () => {
+it("HashRouter correct go to next addres", async () => {
   const router = new HashRouter("/main");
-  router.go("/main/article");
+  await router.go("/main/article");
   expect(location.toString()).toBe("http://localhost/#/main/article");
 });
 
-it("Test HashRouter sync hook", () => {
+it("Test HashRouter sync hook", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
   router.on("/main/user", spy);
 
-  router.go("/main");
+  await router.go("/main");
   expect(spy).toHaveBeenCalledTimes(1);
 
-  router.go("/main/user");
+  await router.go("/main/user");
   expect(spy).toHaveBeenCalledTimes(2);
 
-  router.go("/main");
+  await router.go("/main");
   expect(spy).toHaveBeenCalledTimes(3);
 });
 
-it("Test HashRouter sync onEnter", () => {
+it("Test HashRouter sync onEnter", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
   router.on("/main/pages", undefined, spy);
 
-  router.go("/main/cost");
+  await router.go("/main/cost");
   expect(spy).toHaveBeenCalledTimes(0);
 
-  router.go("/main/pages");
+  await router.go("/main/pages");
   expect(spy).toHaveBeenCalledTimes(1);
 
-  router.go("/main");
+  await router.go("/main");
   expect(spy).toHaveBeenCalledTimes(1);
 });
 
-it("Test HashRouter sync onLeave", () => {
+it("Test HashRouter sync onLeave", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
   router.on("/main/article", undefined, undefined, spy);
 
-  router.go("/main/calculator");
+  await router.go("/main/calculator");
   expect(spy).toHaveBeenCalledTimes(0);
 
-  router.go("/main/article");
+  await router.go("/main/article");
   expect(spy).toHaveBeenCalledTimes(0);
 
-  router.go("/main");
+  await router.go("/main");
   expect(spy).toHaveBeenCalledTimes(1);
 });
 
-it("Test HashRouter sync onBeforeLeave", () => {
+it("Test HashRouter sync onBeforeLeave", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
   router.on("/main/before", undefined, undefined, undefined, spy);
 
-  router.go("/main/calculator");
+  await router.go("/main/calculator");
   expect(spy).toHaveBeenCalledTimes(0);
 
-  router.go("/main/before");
+  await router.go("/main/before");
   expect(spy).toHaveBeenCalledTimes(1);
 
-  router.go("/main/pages");
+  await router.go("/main/pages");
+  expect(spy).toHaveBeenCalledTimes(1);
+});
+
+it("Test HashRouter async hook", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+
+  router.on("/main/hook", hook);
+
+  await router.go("/main/users");
+  expect(spy).toBeCalledTimes(0);
+  await sleep(15);
+  expect(spy).toBeCalledTimes(1);
+
+  await router.go("/main/hook");
+  expect(spy).toBeCalledTimes(1);
+  await sleep(15);
+  expect(spy).toBeCalledTimes(2);
+});
+
+it("Test HasRouter async onEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+  router.on("/main/onEnter", undefined, hook);
+
+  await router.go("/main/users");
+  expect(spy).toBeCalledTimes(0);
+  await sleep(20);
+  expect(spy).toBeCalledTimes(0);
+
+  await router.go("/main/onEnter");
+  expect(spy).toBeCalledTimes(0);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+});
+
+it("Test HashRouter async onLeave", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+  router.on("/main/onLeave", undefined, undefined, hook);
+
+  await router.go("/main/users");
+  expect(spy).toBeCalledTimes(0);
+  await sleep(20);
+  expect(spy).toBeCalledTimes(0);
+
+  await router.go("/main/onLeave");
+  expect(spy).toBeCalledTimes(0);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/users");
+  expect(spy).toBeCalledTimes(0);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+});
+
+it("Test HashRouter async onBeforeEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+  router.on("/main/onBeforeEnter", undefined, undefined, undefined, hook);
+
+  await router.go("/main/users");
+  expect(spy).toBeCalledTimes(0);
+  await sleep(20);
+  expect(spy).toBeCalledTimes(0);
+
+  await router.go("/main/onBeforeEnter");
+  expect(spy).toBeCalledTimes(0);
+  await sleep(20);
   expect(spy).toHaveBeenCalledTimes(1);
 });

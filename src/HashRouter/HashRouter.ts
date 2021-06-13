@@ -6,19 +6,20 @@ export class HashRouter extends Router {
     location.hash = rootPath;
   }
 
-  go(path: GoArgument): void {
+  public async go(path: GoArgument): Promise<void> {
     let normalizePath = "";
     if (typeof path === "string") {
       normalizePath = path;
     }
     this.history.push(normalizePath);
-    this.onBeforeEnter(normalizePath);
+    await this.onBeforeEnter(normalizePath);
     this.previousPath = this.currentPath;
     this.currentPath = normalizePath;
     location.hash = normalizePath;
-    this.onLeave(this.previousPath);
-    this.onEnter(normalizePath);
-
-    this.hookLIst.forEach((el) => el.toDo());
+    await this.onLeave(this.previousPath);
+    await this.onEnter(normalizePath);
+    await this.hookLIst.forEach(async (el) => {
+      await el.toDo();
+    });
   }
 }

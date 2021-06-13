@@ -23,7 +23,7 @@ export abstract class Router {
     this.onBeforeEnterList = [];
   }
 
-  abstract go(url: string): void;
+  abstract go(url: string): Promise<void>;
 
   public on(
     inputUrl: string,
@@ -60,12 +60,16 @@ export abstract class Router {
 
   protected async onEnter(url: string): Promise<void> {
     const onEnterThatWillRun = this.onEnterList.filter((el) => el.url === url);
-    onEnterThatWillRun.forEach((el) => el.toDo());
+    onEnterThatWillRun.forEach(async (el) => {
+      await el.toDo();
+    });
   }
 
   protected async onLeave(url: string): Promise<void> {
     const onLeaveThatWillRun = this.onLeaveList.filter((el) => el.url === url);
-    onLeaveThatWillRun.forEach((el) => el.toDo());
+    onLeaveThatWillRun.forEach(async (el) => {
+      await el.toDo();
+    });
   }
 
   protected async onBeforeEnter(url: string): Promise<void> {
