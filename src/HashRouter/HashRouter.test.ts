@@ -74,6 +74,66 @@ it("Test HashRouter sync onBeforeLeave", async () => {
   expect(spy).toHaveBeenCalledTimes(1);
 });
 
+it("Test HashRouter sync regexp OnEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+
+  router.on(/\/main\/index\/[a-zA-Z0-9]{1,}/, { onEnter: spy });
+
+  await router.go("/main/school/cancellery");
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/index/director");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/boss/contacts");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/index/HR");
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+it("Test HashRouter sync regexp OnLeave", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+
+  router.on(/\/main\/index\/[a-zA-Z0-9]{1,}/, { onLeave: spy });
+
+  await router.go("/main/school/cancellery");
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/index/director");
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/boss/contacts");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/index/HR");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/teachsoft/developers");
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+it("Test HashRouter sync regexp OnBeforeEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+
+  router.on(/\/main\/index\/[a-zA-Z0-9]{1,}/, { onBeforeEnter: spy });
+
+  await router.go("/main/school/cancellery");
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/index/director");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/boss/contacts");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/index/HR");
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
 it("Test HashRouter async hook", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
@@ -154,4 +214,92 @@ it("Test HashRouter async onBeforeEnter", async () => {
   expect(spy).toBeCalledTimes(0);
   await sleep(20);
   expect(spy).toHaveBeenCalledTimes(1);
+});
+
+it("Test HashRouter async regexp OnEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+  router.on(/\/main\/index\/[a-zA-Z0-9]{1,}/, { onEnter: hook });
+
+  await router.go("/main/school/cancellery");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/index/director");
+  expect(spy).toHaveBeenCalledTimes(0);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/boss/contacts");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/index/HR");
+  expect(spy).toHaveBeenCalledTimes(1);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+it("Test HashRouter async regexp OnLeave", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+  router.on(/\/main\/index\/[a-zA-Z0-9]{1,}/, { onLeave: hook });
+
+  await router.go("/main/school/cancellery");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/index/director");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/boss/contacts");
+  expect(spy).toHaveBeenCalledTimes(0);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/index/HR");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/teachsoft/developers");
+  expect(spy).toHaveBeenCalledTimes(1);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+it("Test HashRouter async regexp OnBeforeEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+  router.on(/\/main\/index\/[a-zA-Z0-9]{1,}/, { onBeforeEnter: hook });
+
+  await router.go("/main/school/cancellery");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/index/director");
+  expect(spy).toHaveBeenCalledTimes(0);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/boss/contacts");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/index/HR");
+  expect(spy).toHaveBeenCalledTimes(1);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(2);
 });

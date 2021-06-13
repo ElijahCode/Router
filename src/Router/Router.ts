@@ -25,7 +25,10 @@ export abstract class Router {
 
   abstract go(url: string): Promise<void>;
 
-  public on(inputUrl: string, optionalArguments: OnOptionalArguments): void {
+  public on(
+    inputUrl: UrlArgument,
+    optionalArguments: OnOptionalArguments
+  ): void {
     if (optionalArguments.hook) {
       this.hookLIst.push({
         url: inputUrl,
@@ -53,23 +56,48 @@ export abstract class Router {
   }
 
   protected async onEnter(url: string): Promise<void> {
-    const onEnterThatWillRun = this.onEnterList.filter((el) => el.url === url);
+    const onEnterThatWillRun = this.onEnterList.filter((el) => {
+      switch (typeof el.url) {
+        case "string":
+          return el.url === url;
+        case "object":
+          return el.url.test(url);
+        default:
+          return false;
+      }
+    });
     onEnterThatWillRun.forEach(async (el) => {
       await el.toDo();
     });
   }
 
   protected async onLeave(url: string): Promise<void> {
-    const onLeaveThatWillRun = this.onLeaveList.filter((el) => el.url === url);
+    const onLeaveThatWillRun = this.onLeaveList.filter((el) => {
+      switch (typeof el.url) {
+        case "string":
+          return el.url === url;
+        case "object":
+          return el.url.test(url);
+        default:
+          return false;
+      }
+    });
     onLeaveThatWillRun.forEach(async (el) => {
       await el.toDo();
     });
   }
 
   protected async onBeforeEnter(url: string): Promise<void> {
-    const onBeforeEnterThatWillRun = this.onBeforeEnterList.filter(
-      (el) => el.url === url
-    );
+    const onBeforeEnterThatWillRun = this.onBeforeEnterList.filter((el) => {
+      switch (typeof el.url) {
+        case "string":
+          return el.url === url;
+        case "object":
+          return el.url.test(url);
+        default:
+          return false;
+      }
+    });
     onBeforeEnterThatWillRun.forEach(async (el) => {
       await el.toDo();
     });

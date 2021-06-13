@@ -22,23 +22,25 @@ interface OnBeforeEnter {
   async(): () => void;
 }
 
+type UrlArgument = string | RegExp;
+
 type HookList = {
-  url: string;
+  url: UrlArgument;
   toDo: Hook;
 }[];
 
 type OnEnterList = {
-  url: string;
+  url: UrlArgument;
   toDo: OnEnter;
 }[];
 
 type OnLeaveList = {
-  url: string;
+  url: UrlArgument;
   toDo: OnLeave;
 }[];
 
 type OnBeforeEnterList = {
-  url: string;
+  url: UrlArgument;
   toDo: OnBeforeEnter;
 }[];
 
