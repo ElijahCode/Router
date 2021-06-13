@@ -62,6 +62,8 @@ export abstract class Router {
           return el.url === url;
         case "object":
           return el.url.test(url);
+        case "function":
+          return el.url(url);
         default:
           return false;
       }
@@ -78,6 +80,8 @@ export abstract class Router {
           return el.url === url;
         case "object":
           return el.url.test(url);
+        case "function":
+          return el.url(url);
         default:
           return false;
       }
@@ -94,6 +98,8 @@ export abstract class Router {
           return el.url === url;
         case "object":
           return el.url.test(url);
+        case "function":
+          return el.url(url);
         default:
           return false;
       }

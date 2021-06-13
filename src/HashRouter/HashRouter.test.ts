@@ -12,7 +12,7 @@ it("HashRouter correct go to next addres", async () => {
   expect(location.toString()).toBe("http://localhost/#/main/article");
 });
 
-it("Test HashRouter sync hook", async () => {
+it("Test HashRouter on: sync hook", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
@@ -28,7 +28,7 @@ it("Test HashRouter sync hook", async () => {
   expect(spy).toHaveBeenCalledTimes(3);
 });
 
-it("Test HashRouter sync onEnter", async () => {
+it("Test HashRouter on: sync onEnter", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
   router.on("/main/pages", { onEnter: spy });
@@ -43,7 +43,7 @@ it("Test HashRouter sync onEnter", async () => {
   expect(spy).toHaveBeenCalledTimes(1);
 });
 
-it("Test HashRouter sync onLeave", async () => {
+it("Test HashRouter on: sync onLeave", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
   router.on("/main/article", { onLeave: spy });
@@ -58,7 +58,7 @@ it("Test HashRouter sync onLeave", async () => {
   expect(spy).toHaveBeenCalledTimes(1);
 });
 
-it("Test HashRouter sync onBeforeLeave", async () => {
+it("Test HashRouter on: sync onBeforeLeave", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
@@ -74,7 +74,7 @@ it("Test HashRouter sync onBeforeLeave", async () => {
   expect(spy).toHaveBeenCalledTimes(1);
 });
 
-it("Test HashRouter sync regexp OnEnter", async () => {
+it("Test HashRouter on: sync regexp OnEnter", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
@@ -93,7 +93,7 @@ it("Test HashRouter sync regexp OnEnter", async () => {
   expect(spy).toHaveBeenCalledTimes(2);
 });
 
-it("Test HashRouter sync regexp OnLeave", async () => {
+it("Test HashRouter on: sync regexp OnLeave", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
@@ -115,7 +115,7 @@ it("Test HashRouter sync regexp OnLeave", async () => {
   expect(spy).toHaveBeenCalledTimes(2);
 });
 
-it("Test HashRouter sync regexp OnBeforeEnter", async () => {
+it("Test HashRouter on: sync regexp OnBeforeEnter", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
@@ -134,7 +134,88 @@ it("Test HashRouter sync regexp OnBeforeEnter", async () => {
   expect(spy).toHaveBeenCalledTimes(2);
 });
 
-it("Test HashRouter async hook", async () => {
+it("Test HashRouter on: sync function onEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  function definer(url: string) {
+    if (url === "/main/pages" || url === "/main") {
+      return true;
+    }
+    return false;
+  }
+  router.on(definer, { onEnter: spy });
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/pages");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main");
+  expect(spy).toHaveBeenCalledTimes(2);
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+it("Test HashRouter on: sync function onLeave", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  function definer(url: string) {
+    if (url === "/main/pages" || url === "/main/cost") {
+      return true;
+    }
+    return false;
+  }
+  router.on(definer, { onLeave: spy });
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/pages");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(2);
+
+  await router.go("/main");
+  expect(spy).toHaveBeenCalledTimes(3);
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(3);
+});
+
+it("Test HashRouter on: sync function onEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  function definer(url: string) {
+    if (url === "/main/pages" || url === "/main") {
+      return true;
+    }
+    return false;
+  }
+  router.on(definer, { onEnter: spy });
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/pages");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main");
+  expect(spy).toHaveBeenCalledTimes(2);
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+it("Test HashRouter on: async hook", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
   async function hookFun() {
@@ -154,7 +235,7 @@ it("Test HashRouter async hook", async () => {
   expect(spy).toBeCalledTimes(2);
 });
 
-it("Test HasRouter async onEnter", async () => {
+it("Test HashRouter on: async onEnter", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
   async function hook() {
@@ -173,7 +254,7 @@ it("Test HasRouter async onEnter", async () => {
   expect(spy).toHaveBeenCalledTimes(1);
 });
 
-it("Test HashRouter async onLeave", async () => {
+it("Test HashRouter on: async onLeave", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
   async function hook() {
@@ -197,7 +278,7 @@ it("Test HashRouter async onLeave", async () => {
   expect(spy).toHaveBeenCalledTimes(1);
 });
 
-it("Test HashRouter async onBeforeEnter", async () => {
+it("Test HashRouter on: async onBeforeEnter", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
   async function hook() {
@@ -216,7 +297,7 @@ it("Test HashRouter async onBeforeEnter", async () => {
   expect(spy).toHaveBeenCalledTimes(1);
 });
 
-it("Test HashRouter async regexp OnEnter", async () => {
+it("Test HashRouter on: async regexp OnEnter", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
@@ -244,7 +325,7 @@ it("Test HashRouter async regexp OnEnter", async () => {
   expect(spy).toHaveBeenCalledTimes(2);
 });
 
-it("Test HashRouter async regexp OnLeave", async () => {
+it("Test HashRouter on: async regexp OnLeave", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
@@ -276,7 +357,7 @@ it("Test HashRouter async regexp OnLeave", async () => {
   expect(spy).toHaveBeenCalledTimes(2);
 });
 
-it("Test HashRouter async regexp OnBeforeEnter", async () => {
+it("Test HashRouter on: async regexp OnBeforeEnter", async () => {
   const router = new HashRouter("/main");
   const spy = jest.fn();
 
@@ -300,6 +381,117 @@ it("Test HashRouter async regexp OnBeforeEnter", async () => {
 
   await router.go("/main/index/HR");
   expect(spy).toHaveBeenCalledTimes(1);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+it("Test HashRouter on: async function onEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+  function definer(url: string) {
+    if (url === "/main/pages" || url === "/main") {
+      return true;
+    }
+    return false;
+  }
+  router.on(definer, { onEnter: hook });
+
+  await router.go("/main/cost");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/pages");
+  expect(spy).toHaveBeenCalledTimes(0);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/cost");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main");
+  expect(spy).toHaveBeenCalledTimes(1);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(2);
+
+  await router.go("/main/cost");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+it("Test HashRouter on: async function onLeave", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  function definer(url: string) {
+    if (url === "/main/pages" || url === "/main/users") {
+      return true;
+    }
+    return false;
+  }
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+  router.on(definer, { onLeave: hook });
+
+  await router.go("/main/cost");
+  await sleep(20);
+  expect(spy).toBeCalledTimes(0);
+
+  await router.go("/main");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/users");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/pages");
+  expect(spy).toHaveBeenCalledTimes(0);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/cost");
+  expect(spy).toHaveBeenCalledTimes(1);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+it("Test HashRouter on: async function onBeforeEnter", async () => {
+  const router = new HashRouter("/main");
+  const spy = jest.fn();
+  async function hook() {
+    return setTimeout(spy, 10);
+  }
+  function definer(url: string) {
+    if (url === "/main/pages" || url === "/main") {
+      return true;
+    }
+    return false;
+  }
+  router.on(definer, { onBeforeEnter: hook });
+
+  await router.go("/main/cost");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(0);
+
+  await router.go("/main/pages");
+  expect(spy).toHaveBeenCalledTimes(0);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main/cost");
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  await router.go("/main");
+  expect(spy).toHaveBeenCalledTimes(1);
+  await sleep(20);
+  expect(spy).toHaveBeenCalledTimes(2);
+
+  await router.go("/main/cost");
   await sleep(20);
   expect(spy).toHaveBeenCalledTimes(2);
 });

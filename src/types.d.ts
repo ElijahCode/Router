@@ -22,7 +22,11 @@ interface OnBeforeEnter {
   async(): () => void;
 }
 
-type UrlArgument = string | RegExp;
+interface UrlArgumentFunction {
+  (url?: string): boolean;
+}
+
+type UrlArgument = string | RegExp | UrlArgumentFunction;
 
 type HookList = {
   url: UrlArgument;
