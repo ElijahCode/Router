@@ -11,4 +11,5 @@ module.exports = {
       statements: 80,
     },
   },
+  moduleFileExtensions: ["js", "json", "jsx", "ts", "d.ts", "tsx", "node"],
 };

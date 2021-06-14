@@ -3,20 +3,20 @@ export abstract class Router {
 
   protected previousPath: PreviousPath;
 
-  protected history: PathsHistory;
+  protected routerHistory: PathsHistory;
 
   protected hookLIst: HookList;
 
-  protected onEnterList: OnEnterList;
+  protected onEnterList: HookList;
 
-  protected onLeaveList: OnLeaveList;
+  protected onLeaveList: HookList;
 
-  protected onBeforeEnterList: OnBeforeEnterList;
+  protected onBeforeEnterList: HookList;
 
   constructor(rootPath: string) {
     this.currentPath = rootPath;
     this.previousPath = null;
-    this.history = [this.currentPath];
+    this.routerHistory = [this.currentPath];
     this.hookLIst = [];
     this.onEnterList = [];
     this.onLeaveList = [];

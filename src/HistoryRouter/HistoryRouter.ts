@@ -1,13 +1,13 @@
 import { Router } from "../Router/Router";
 
-export class HashRouter extends Router {
+export class HistoryRouter extends Router {
   constructor(rootPath: string) {
     super(rootPath);
-    location.hash = rootPath;
+    history.pushState({ type: "GO" }, document.title, rootPath);
   }
 
   public async go(
-    path: string,
+    path: GoArgument,
     optionalArguments?: GoOptionalArguments
   ): Promise<void> {
     if (optionalArguments && optionalArguments.onBeforeEnter) {
@@ -17,8 +17,8 @@ export class HashRouter extends Router {
     }
 
     this.previousPath = this.currentPath;
+    history.pushState({ type: "GO" }, document.title, path);
     this.currentPath = path;
-    location.hash = path;
 
     if (optionalArguments && optionalArguments.onLeave) {
       await this.onLeave(this.previousPath, optionalArguments.onLeave);
