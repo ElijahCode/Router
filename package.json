@@ -2,7 +2,7 @@
   "name": "@elijahcode/router",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/createStore/createStore.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles --forceExit",
     "lint": "prettier --check . && eslint . --ext .js,.ts && tsc --noEmit src/**/*.ts",
