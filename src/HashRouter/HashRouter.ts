@@ -1,9 +1,9 @@
 import { Router } from "../Router/Router";
 
 export class HashRouter extends Router {
-  constructor(rootPath: string) {
-    super(rootPath);
-    location.hash = rootPath;
+  constructor() {
+    super();
+    location.hash = location.pathname;
   }
 
   public async go(

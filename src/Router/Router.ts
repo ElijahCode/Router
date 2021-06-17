@@ -1,3 +1,5 @@
+import { urlFilter } from "../urlFilter/urlFilter";
+
 export abstract class Router {
   protected currentPath: CurrentPath;
 
@@ -13,8 +15,8 @@ export abstract class Router {
 
   protected onBeforeEnterList: HookList;
 
-  constructor(rootPath: string) {
-    this.currentPath = rootPath;
+  constructor() {
+    this.currentPath = location.pathname;
     this.previousPath = null;
     this.routerHistory = [this.currentPath];
     this.hookLIst = [];
@@ -62,18 +64,9 @@ export abstract class Router {
     url: string,
     hookArguments?: GoOptionalArguments["onEnter"]
   ): Promise<void> {
-    const onEnterThatWillRun = this.onEnterList.filter((el) => {
-      switch (typeof el.url) {
-        case "string":
-          return el.url === url;
-        case "object":
-          return el.url.test(url);
-        case "function":
-          return el.url(url);
-        default:
-          return false;
-      }
-    });
+    const onEnterThatWillRun = this.onEnterList.filter((el) =>
+      urlFilter(el, url)
+    );
     onEnterThatWillRun.forEach(async (el) => {
       if (hookArguments) {
         await el.toDo(...hookArguments);
@@ -87,18 +80,9 @@ export abstract class Router {
     url: string,
     hookArguments?: GoOptionalArguments["onLeave"]
   ): Promise<void> {
-    const onLeaveThatWillRun = this.onLeaveList.filter((el) => {
-      switch (typeof el.url) {
-        case "string":
-          return el.url === url;
-        case "object":
-          return el.url.test(url);
-        case "function":
-          return el.url(url);
-        default:
-          return false;
-      }
-    });
+    const onLeaveThatWillRun = this.onLeaveList.filter((el) =>
+      urlFilter(el, url)
+    );
     onLeaveThatWillRun.forEach(async (el) => {
       if (hookArguments) {
         await el.toDo(...hookArguments);
@@ -112,18 +96,9 @@ export abstract class Router {
     url: string,
     hookArguments?: GoOptionalArguments["onBeforeEnter"]
   ): Promise<void> {
-    const onBeforeEnterThatWillRun = this.onBeforeEnterList.filter((el) => {
-      switch (typeof el.url) {
-        case "string":
-          return el.url === url;
-        case "object":
-          return el.url.test(url);
-        case "function":
-          return el.url(url);
-        default:
-          return false;
-      }
-    });
+    const onBeforeEnterThatWillRun = this.onBeforeEnterList.filter((el) =>
+      urlFilter(el, url)
+    );
     onBeforeEnterThatWillRun.forEach(async (el) => {
       if (hookArguments) {
         await el.toDo(...hookArguments);

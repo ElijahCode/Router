@@ -2,19 +2,23 @@ import { HistoryRouter } from "./HistoryRouter";
 import { sleep } from "../utils/utils";
 import "../types/types";
 
+beforeEach(() => {
+  history.pushState(null, "none", "http://localhost/");
+});
+
 it("HistoryRouter correct create root path", () => {
-  const router = new HistoryRouter("/main");
-  expect(location.toString()).toBe("http://localhost/main");
+  const router = new HistoryRouter();
+  expect(location.toString()).toBe("http://localhost/");
 });
 
 it("HistoryRouter correct go to next addres", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   await router.go("/main/article");
   expect(location.toString()).toBe("http://localhost/main/article");
 });
 
 it("Test HistoryRouter on: sync hook", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -33,7 +37,7 @@ it("Test HistoryRouter on: sync hook", async () => {
 });
 
 it("Test HistoryRouter on: sync onEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -52,7 +56,7 @@ it("Test HistoryRouter on: sync onEnter", async () => {
 });
 
 it("Test HistoryRouter on: sync onLeave", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -71,7 +75,7 @@ it("Test HistoryRouter on: sync onLeave", async () => {
 });
 
 it("Test HistoryRouter on: sync onBeforeLeave", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -90,7 +94,7 @@ it("Test HistoryRouter on: sync onBeforeLeave", async () => {
 });
 
 it("Test HistoryRouter on: sync regexp OnEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -112,7 +116,7 @@ it("Test HistoryRouter on: sync regexp OnEnter", async () => {
 });
 
 it("Test HistoryRouter on: sync regexp OnLeave", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -137,7 +141,7 @@ it("Test HistoryRouter on: sync regexp OnLeave", async () => {
 });
 
 it("Test HistoryRouter on: sync regexp OnBeforeEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -161,7 +165,7 @@ it("Test HistoryRouter on: sync regexp OnBeforeEnter", async () => {
 });
 
 it("Test HistoryRouter on: sync function onEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -191,7 +195,7 @@ it("Test HistoryRouter on: sync function onEnter", async () => {
 });
 
 it("Test HistoryRouter on: sync function onLeave", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -221,7 +225,7 @@ it("Test HistoryRouter on: sync function onLeave", async () => {
 });
 
 it("Test HistoryRouter on: sync function onEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -251,7 +255,7 @@ it("Test HistoryRouter on: sync function onEnter", async () => {
 });
 
 it("Test HistoryRouter on: async hook", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   async function hookFun() {
     setTimeout(spy, 10);
@@ -271,7 +275,7 @@ it("Test HistoryRouter on: async hook", async () => {
 });
 
 it("Test HistoryRouter on: async onEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -290,7 +294,7 @@ it("Test HistoryRouter on: async onEnter", async () => {
 });
 
 it("Test HistoryRouter on: async onLeave", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -314,7 +318,7 @@ it("Test HistoryRouter on: async onLeave", async () => {
 });
 
 it("Test HistoryRouter on: async onBeforeEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -333,7 +337,7 @@ it("Test HistoryRouter on: async onBeforeEnter", async () => {
 });
 
 it("Test HistoryRouter on: async regexp OnEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
 
   async function hook() {
@@ -361,7 +365,7 @@ it("Test HistoryRouter on: async regexp OnEnter", async () => {
 });
 
 it("Test HistoryRouter on: async regexp OnLeave", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
 
   async function hook() {
@@ -393,7 +397,7 @@ it("Test HistoryRouter on: async regexp OnLeave", async () => {
 });
 
 it("Test HistoryRouter on: async regexp OnBeforeEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
 
   async function hook() {
@@ -423,7 +427,7 @@ it("Test HistoryRouter on: async regexp OnBeforeEnter", async () => {
 });
 
 it("Test HistoryRouter on: async function onEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -460,7 +464,7 @@ it("Test HistoryRouter on: async function onEnter", async () => {
 });
 
 it("Test HistoryRouter on: async function onLeave", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function definer(url: string) {
     if (url === "/main/pages" || url === "/main/users") {
@@ -497,7 +501,7 @@ it("Test HistoryRouter on: async function onLeave", async () => {
 });
 
 it("Test HistoryRouter on: async function onBeforeEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -534,7 +538,7 @@ it("Test HistoryRouter on: async function onBeforeEnter", async () => {
 });
 
 it("Test HistoryRouter go with args: onEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook(...args) {
     spy(...args);
@@ -561,7 +565,7 @@ it("Test HistoryRouter go with args: onEnter", async () => {
 });
 
 it("Test HistoryRouter go with args: onLeave", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook(...args) {
     spy(...args);
@@ -589,7 +593,7 @@ it("Test HistoryRouter go with args: onLeave", async () => {
 });
 
 it("Test HistoryRouter go with args: onBeforeEnter", async () => {
-  const router = new HistoryRouter("/main");
+  const router = new HistoryRouter();
   const spy = jest.fn();
   function testHook(...args) {
     spy(...args);

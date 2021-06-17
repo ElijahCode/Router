@@ -3,18 +3,18 @@ import { sleep } from "../utils/utils";
 import "../types/types";
 
 it("HashRouter correct create root path", () => {
-  const router = new HashRouter("/main");
-  expect(location.toString()).toBe("http://localhost/#/main");
+  const router = new HashRouter();
+  expect(location.toString()).toBe("http://localhost/#/");
 });
 
 it("HashRouter correct go to next addres", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   await router.go("/main/article");
   expect(location.toString()).toBe("http://localhost/#/main/article");
 });
 
 it("Test HashRouter on: sync hook", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -33,7 +33,7 @@ it("Test HashRouter on: sync hook", async () => {
 });
 
 it("Test HashRouter on: sync onEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -52,7 +52,7 @@ it("Test HashRouter on: sync onEnter", async () => {
 });
 
 it("Test HashRouter on: sync onLeave", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -71,7 +71,7 @@ it("Test HashRouter on: sync onLeave", async () => {
 });
 
 it("Test HashRouter on: sync onBeforeLeave", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -90,7 +90,7 @@ it("Test HashRouter on: sync onBeforeLeave", async () => {
 });
 
 it("Test HashRouter on: sync regexp OnEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -112,7 +112,7 @@ it("Test HashRouter on: sync regexp OnEnter", async () => {
 });
 
 it("Test HashRouter on: sync regexp OnLeave", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -137,7 +137,7 @@ it("Test HashRouter on: sync regexp OnLeave", async () => {
 });
 
 it("Test HashRouter on: sync regexp OnBeforeEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -161,7 +161,7 @@ it("Test HashRouter on: sync regexp OnBeforeEnter", async () => {
 });
 
 it("Test HashRouter on: sync function onEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -191,7 +191,7 @@ it("Test HashRouter on: sync function onEnter", async () => {
 });
 
 it("Test HashRouter on: sync function onLeave", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -221,7 +221,7 @@ it("Test HashRouter on: sync function onLeave", async () => {
 });
 
 it("Test HashRouter on: sync function onEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook() {
     spy();
@@ -251,7 +251,7 @@ it("Test HashRouter on: sync function onEnter", async () => {
 });
 
 it("Test HashRouter on: async hook", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   async function hookFun() {
     setTimeout(spy, 10);
@@ -271,7 +271,7 @@ it("Test HashRouter on: async hook", async () => {
 });
 
 it("Test HashRouter on: async onEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -290,7 +290,7 @@ it("Test HashRouter on: async onEnter", async () => {
 });
 
 it("Test HashRouter on: async onLeave", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -314,7 +314,7 @@ it("Test HashRouter on: async onLeave", async () => {
 });
 
 it("Test HashRouter on: async onBeforeEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -333,7 +333,7 @@ it("Test HashRouter on: async onBeforeEnter", async () => {
 });
 
 it("Test HashRouter on: async regexp OnEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
 
   async function hook() {
@@ -361,7 +361,7 @@ it("Test HashRouter on: async regexp OnEnter", async () => {
 });
 
 it("Test HashRouter on: async regexp OnLeave", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
 
   async function hook() {
@@ -393,7 +393,7 @@ it("Test HashRouter on: async regexp OnLeave", async () => {
 });
 
 it("Test HashRouter on: async regexp OnBeforeEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
 
   async function hook() {
@@ -423,7 +423,7 @@ it("Test HashRouter on: async regexp OnBeforeEnter", async () => {
 });
 
 it("Test HashRouter on: async function onEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -460,7 +460,7 @@ it("Test HashRouter on: async function onEnter", async () => {
 });
 
 it("Test HashRouter on: async function onLeave", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function definer(url: string) {
     if (url === "/main/pages" || url === "/main/users") {
@@ -497,7 +497,7 @@ it("Test HashRouter on: async function onLeave", async () => {
 });
 
 it("Test HashRouter on: async function onBeforeEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   async function hook() {
     setTimeout(spy, 10);
@@ -534,7 +534,7 @@ it("Test HashRouter on: async function onBeforeEnter", async () => {
 });
 
 it("Test HashRouter go with args: onEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook(...args) {
     spy(...args);
@@ -561,7 +561,7 @@ it("Test HashRouter go with args: onEnter", async () => {
 });
 
 it("Test HashRouter go with args: onLeave", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook(...args) {
     spy(...args);
@@ -589,7 +589,7 @@ it("Test HashRouter go with args: onLeave", async () => {
 });
 
 it("Test HashRouter go with args: onBeforeEnter", async () => {
-  const router = new HashRouter("/main");
+  const router = new HashRouter();
   const spy = jest.fn();
   function testHook(...args) {
     spy(...args);

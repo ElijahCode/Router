@@ -16,10 +16,12 @@ declare interface UrlArgumentFunction {
 
 declare type UrlArgument = string | RegExp | UrlArgumentFunction;
 
-declare type HookList = {
+declare interface HookListMember {
   url: UrlArgument;
   toDo: Hook | AsyncHook;
-}[];
+}
+
+declare type HookList = HookListMember[];
 
 declare type GoArgument = string;
 

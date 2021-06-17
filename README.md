@@ -28,15 +28,17 @@ Note: if you want use only HashRouter or HistoryRouter, just write it in { } alo
 
 ### Create new router
 
-You can create a new router with using next code:
+You can create a new router with using create router function:
 
 ```ts
-const hashRouter = new HashRouter("/main");
+const hashRouter = createRouter("hash");
 // or
-const historyRouter = new HistoryRouter("/main");
+const historyRouter = createRouter("history");
 ```
 
-Argument that we put in HashRouter and HistoryRouter is rootPath pf youre page.
+Argument of this function is literall "hash" or "history". Return value is object that have HashRouter or HistoryRouter parent's classes.
+
+If you using JavaScript, you can also pass in function any data. In this case function return null.
 
 ### HashRouter.go and HistoryRouter.go
 
@@ -127,3 +129,14 @@ await someRouter.go("/main/about");
 ```
 
 If you want watch more examples of using this package, you can go to github repository of this package and watch [tests](https://github.com/ElijahCode/Router/blob/development/src/HashRouter/HashRouter.ts)
+
+## ChangeLog
+
+2.0.0
+
+1. Now then you initialize new router it doesn't need root path.
+2. Add createRouter function.
+3. Add new types.
+4. Add urlFilter function for optimization code
+
+1.0.0 Release

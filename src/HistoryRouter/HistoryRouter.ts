@@ -1,9 +1,9 @@
 import { Router } from "../Router/Router";
 
 export class HistoryRouter extends Router {
-  constructor(rootPath: string) {
-    super(rootPath);
-    history.pushState({ type: "GO" }, document.title, rootPath);
+  constructor() {
+    super();
+    history.pushState({ type: "GO" }, document.title, location.pathname);
   }
 
   public async go(
@@ -17,7 +17,7 @@ export class HistoryRouter extends Router {
     }
 
     this.previousPath = this.currentPath;
-    history.pushState({ type: "GO" }, document.title, path);
+    history.pushState(null, document.title, path);
     this.currentPath = path;
 
     if (optionalArguments && optionalArguments.onLeave) {
