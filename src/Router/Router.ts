@@ -67,11 +67,11 @@ export abstract class Router {
     const onEnterThatWillRun = this.onEnterList.filter((el) =>
       urlFilter(el, url)
     );
-    onEnterThatWillRun.forEach(async (el) => {
+    onEnterThatWillRun.forEach((el) => {
       if (hookArguments) {
-        await el.toDo(...hookArguments);
+        el.toDo(...hookArguments);
       } else {
-        await el.toDo();
+        el.toDo();
       }
     });
   }
@@ -83,11 +83,11 @@ export abstract class Router {
     const onLeaveThatWillRun = this.onLeaveList.filter((el) =>
       urlFilter(el, url)
     );
-    onLeaveThatWillRun.forEach(async (el) => {
+    onLeaveThatWillRun.forEach((el) => {
       if (hookArguments) {
-        await el.toDo(...hookArguments);
+        el.toDo(...hookArguments);
       } else {
-        await el.toDo();
+        el.toDo();
       }
     });
   }
@@ -99,11 +99,11 @@ export abstract class Router {
     const onBeforeEnterThatWillRun = this.onBeforeEnterList.filter((el) =>
       urlFilter(el, url)
     );
-    onBeforeEnterThatWillRun.forEach(async (el) => {
+    onBeforeEnterThatWillRun.forEach((el) => {
       if (hookArguments) {
-        await el.toDo(...hookArguments);
+        el.toDo(...hookArguments);
       } else {
-        await el.toDo();
+        el.toDo();
       }
     });
   }

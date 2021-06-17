@@ -132,6 +132,10 @@ If you want watch more examples of using this package, you can go to github repo
 
 ## ChangeLog
 
+2.0.1
+
+1. Minor code changes.
+
 2.0.0
 
 1. Now then you initialize new router it doesn't need root path.
