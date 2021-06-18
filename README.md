@@ -21,10 +21,8 @@ You can installing package with using CLI. For it run next command in terminal:
 For adding packge to module, put next code in this:
 
 ```ts
-import { HashRouter, HistoryRouter } from "@elijahcode/router";
+import { createRouter } from "@elijahcode/router";
 ```
-
-Note: if you want use only HashRouter or HistoryRouter, just write it in { } alone.
 
 ### Create new router
 
