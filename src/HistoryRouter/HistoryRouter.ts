@@ -1,11 +1,6 @@
 import { Router } from "../Router/Router";
 
 export class HistoryRouter extends Router {
-  constructor() {
-    super();
-    history.pushState({ type: "GO" }, document.title, location.pathname);
-  }
-
   public async go(
     path: GoArgument,
     optionalArguments?: GoOptionalArguments
@@ -31,8 +26,8 @@ export class HistoryRouter extends Router {
       await this.onEnter(path);
     }
 
-    await this.hookLIst.forEach(async (el) => {
-      await el.toDo();
+    this.hookLIst.forEach(async (el) => {
+      el.toDo();
     });
   }
 }

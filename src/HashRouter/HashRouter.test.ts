@@ -4,7 +4,7 @@ import "../types/types";
 
 it("HashRouter correct create root path", () => {
   const router = new HashRouter();
-  expect(location.toString()).toBe("http://localhost/#/");
+  expect(location.toString()).toBe("http://localhost/");
 });
 
 it("HashRouter correct go to next addres", async () => {

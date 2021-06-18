@@ -1,11 +1,6 @@
 import { Router } from "../Router/Router";
 
 export class HashRouter extends Router {
-  constructor() {
-    super();
-    location.hash = location.pathname;
-  }
-
   public async go(
     path: string,
     optionalArguments?: GoOptionalArguments
@@ -31,8 +26,8 @@ export class HashRouter extends Router {
       await this.onEnter(path);
     }
 
-    await this.hookLIst.forEach(async (el) => {
-      await el.toDo();
+    this.hookLIst.forEach(async (el) => {
+      el.toDo();
     });
   }
 }

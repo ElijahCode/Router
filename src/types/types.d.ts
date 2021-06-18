@@ -21,9 +21,9 @@ declare interface HookListMember {
   toDo: Hook | AsyncHook;
 }
 
-declare type HookList = HookListMember[];
-
 declare type GoArgument = string;
+declare type HookList = HookListMember[];
+declare type HookArgument = any;
 
 declare interface OnOptionalArguments {
   hook?: Hook | AsyncHook;
@@ -33,7 +33,7 @@ declare interface OnOptionalArguments {
 }
 
 declare interface GoOptionalArguments {
-  onEnter?: any[];
-  onLeave?: any[];
-  onBeforeEnter?: any[];
+  onEnter?: HookArgument[];
+  onLeave?: HookArgument[];
+  onBeforeEnter?: HookArgument[];
 }
